@@ -1,93 +1,99 @@
-import { FlatList, Image, StyleSheet, Text, View, TextInput,TouchableOpacity } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { ActivityIndicator } from 'react-native';
 
-const YeuThich = () => {
-  const [foodslove, setFoods] = useState([
-    {
-      id:1,
-      name: 'Bánh Mì',
-      stutus: 'Opening soon',
-      price: 555,
-      url: 'https://banhmimahai.vn/wp-content/uploads/2020/02/thumb.jpg.webp'
-    },
-    {
-      id:2,
-      name: 'Gỏi Cuốn',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://i.pinimg.com/736x/c3/03/3d/c3033de2d1df36a393fbd52da537fe77.jpg'
-    },
-    {
-      id:3,
-      name: 'Bánh Cuốn',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://static.vinwonders.com/production/banh-cuon-da-lat-1.jpg'
-    },
-    {
-      id:4,
-      name: 'Bánh Xèo',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://daotaobeptruong.vn/wp-content/uploads/2020/01/banh-xeo-mien-tay.jpg'
-    },
-    {
-      id:5,
-      name: 'Phở',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/filters:quality(95)/https://cms-prod.s3-sgn09.fptcloud.com/1_to_pho_bo_bao_nhieu_calo_9_762e002737.jpg'
-    },
-    {
-      id:6,
-      name: 'Bánh Chưng',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://www.cet.edu.vn/wp-content/uploads/2020/01/banh-chung.jpg'
-    },
-    {
-      id:7,
-      name: 'Bánh Dày',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://banhmimahai.vn/wp-content/uploads/2020/02/thumb.jpg.webp'
-    },
-    {
-      id:8,
-      name: 'Bánh Dày',
-      stutus: 'nnn',
-      price: 444,
-      url: 'https://banhmimahai.vn/wp-content/uploads/2020/02/thumb.jpg.webp'
-    },
-  ])
+const YeuThich = (props) => {
+  const [favorite, setfavorite] = useState([]);
+  const [isPressed, setIsPressed] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
+
+  const handlePress = async (index) => {
+
+    const updateFavorite = [...favorite];
+    
+
+    updateFavorite[index].favourite = !updateFavorite[index].favourite;
+    
+    let url_api = `http://192.168.1.5:3000/products/${updateFavorite[index].id}`;
+    try{
+      const respone = await fetch(url_api,{
+        method:'PATCH',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          favourite: updateFavorite[index].favourite,
+        }),
+      });
+
+      if(!respone.ok){
+        throw new Error('Failed to update favorite status');
+      }
+
+      
+    setIsPressed(index);
+
+    setfavorite(updateFavorite);
+  
+      
+    }catch (error){
+      console.error(error);
+    }
+    
+  };
+
+  const getFavoriteList = async () => {
+    let url_api = 'http://192.168.1.5:3000/products';
+    try {
+      const respone = await fetch(url_api);
+
+      const json = await respone.json();
+      const favoritelist = json.filter((love) => love.favourite === true)
+
+      setfavorite(favoritelist)
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisLoading(false);
+    }
+  }
+
+  React.useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getFavoriteList();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
+
   return (
     <View style={{ flex: 1, }}>
-      <View style={{  flexDirection: 'row', justifyContent:'space-between',padding:20 }}>
-        <TouchableOpacity style={{borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5, paddingHorizontal: 7}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20 }}>
+        <TouchableOpacity style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5, paddingHorizontal: 7 }}>
           <Icon name='bars' size={28} color='white' />
         </TouchableOpacity>
-        <TouchableOpacity style={{borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5, paddingHorizontal: 8}}>
+        <TouchableOpacity style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5, paddingHorizontal: 8 }}>
           <Icon name='user' size={28} color='white' />
         </TouchableOpacity>
       </View>
       <View style={{}}>
-      <View style={{
+        <View style={{
           borderColor: '#8bd9bc',
           borderWidth: 2,
           borderRadius: 10,
-          flexDirection:'row',
+          flexDirection: 'row',
           fontSize: 18,
-          alignItems:'center',
+          alignItems: 'center',
           marginHorizontal: 10,
-          paddingHorizontal:10,
-          height:40
+          paddingHorizontal: 10,
+          height: 40
         }}>
           <Icon name='search' size={20} color='black' />
           <TextInput
 
             keyboardType='default'
-            style={{marginHorizontal:10,alignItems:'center'}}
+            style={{ marginHorizontal: 10, alignItems: 'center' }}
           />
         </View>
         <Text style={{
@@ -102,47 +108,69 @@ const YeuThich = () => {
             height: 600,
           }}>
 
-            <View style={{ height: 1, backgroundColor: '#8bd9bc' }}></View>
+            <View style={{ height: 1, backgroundColor: '#8bd9bc' }}></View>{
+              (isLoading) ? (
+                <ActivityIndicator />
+              ) : (
+                <FlatList
+                  data={favorite}
+                  keyExtractor={item => item.id}
+                  renderItem={({ item, index }) => {
+                    return <View style={{ height:500, margin:10, }}>
 
-            <FlatList
-              data={foodslove}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => {
-                return <View style={{
-                  backgroundColor: '#add9cc',
-                  borderRadius: 10,
-                  margin: 5,
-                  padding: 5,
-                  flexDirection: 'row'
-                }}>
-                  <Image style={{
-                    width: 100,
-                    height: 100,
-                    resizeMode: 'cover',
-                    borderRadius: 10,
-                    margin: 10
-                  }}
-                    source={{
-                      uri: item.url
-                    }} />
-                  <View>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>{item.name}</Text>
-                    <Text>{item.stutus}</Text>
-                    <View style={{ flex: 1,width:250, alignItems: 'flex-end', padding: 4, flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <Text style={{ fontSize: 18 }}><Text style={{ color: 'red' }}>$</Text>{item.price}</Text>
-                      <TouchableOpacity style={{ borderRadius: 3, backgroundColor: '#718c49', padding: 3,paddingHorizontal:4 }} onPress={() => Alert.alert(`Đã thêm vào giỏ hàng`)}>
-                      <Icon name='plus' size={15} color='white' />
-                    </TouchableOpacity>
+                    <View style={{ flex: 8, }}>
+                      
+                      <ImageBackground source={{ uri: item.imagelink_square }} style={{ width: '100%', height: '100%' }} />
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 20,position:'absolute',top:0,width:'100%' }}>
+                      
+                      <TouchableOpacity style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5 }} onPress={() => handlePress(index)}>
+                        
+                        <Icon name='heart' size={28} color={isPressed === index || item.favourite ? '#bf3b84':'white'} />
+                      </TouchableOpacity>
+                    </View>
+                      <View style={{
+                        width: '100%',
+                        height: 150,
+                        backgroundColor: 'rgba(113, 140, 73, 0.5)',
+                        position: 'absolute',
+                        bottom: 0,
+                        borderTopRightRadius: 30,
+                        borderTopStartRadius: 30,
+                        flexDirection: 'row'
+                      }}>
+                        <View style={{ flex: 1, padding: 20 }}>
+                          <Text style={{ color: 'white', fontSize: 27, fontWeight: '600' }}>{item.name}</Text>
+                          <Text style={{ color: 'white', fontSize: 15 }}>{item.special_ingredient}</Text>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+                            <Icon name='star' size={20} color={'yellow'} />
+                            <Text style={{ color: 'white', fontSize: 17, fontWeight: '600' }}> {item.average_rating}</Text>
+                            <Text style={{ color: 'white', fontSize: 12 }}> ({item.ratings_count})</Text>
+                          </View>
+              
+                        </View>
+                    
+              
+                      </View>
+              
+                    </View>
+                    <View style={{ flex: 2, backgroundColor: '#718c49', padding: 20 }}>
+                      <Text style={{ color: 'white', fontSize: 20 }}>Mô tả</Text>
+                      <Text numberOfLines={3} ellipsizeMode="tail" style={{ color: 'white', fontSize: 15, marginTop: 10 }}>{item.description}</Text>
+                      
+                      
+                      
+              
                     </View>
                   </View>
+                  }}
+                  style={{ flex: 1, }}>
+
+                </FlatList>
+              )
+            }
 
 
-
-                </View>
-              }}
-              style={{ flex: 1 }}>
-
-            </FlatList>
 
             <View style={{ height: 1, backgroundColor: '#8bd9bc' }}></View>
 
@@ -165,8 +193,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 7,
     margin: 5,
-    marginHorizontal:10,
+    marginHorizontal: 10,
     fontSize: 18,
-    marginTop:20
-},
+    marginTop: 20
+  },
 })

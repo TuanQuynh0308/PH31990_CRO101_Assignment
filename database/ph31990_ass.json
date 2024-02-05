@@ -1,11 +1,36 @@
 {
-  "users": [],
+  "users": [
+    {
+      "name": "admin",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "id": "a7cf"
+    },
+    {
+      "name": "quynh",
+      "email": "quynh@gmail.com",
+      "password": "123456",
+      "id": "ad9a"
+    },
+    {
+      "id": "2a52",
+      "name": "gg",
+      "email": "ggg",
+      "password": "eee"
+    },
+    {
+      "id": "65d2",
+      "name": "Viet",
+      "email": "viet@gmail.com",
+      "password": "123456"
+    }
+  ],
   "products": [
     {
       "id": "V1",
       "name": "Phở",
-      "description": "Phở là một món ăn truyền thống của Việt Nam, nổi tiếng với nước dùng đậm đà và thơm ngon...",
-      "ingredients": "Bánh phở, thịt bò hoặc gà, rau thơm, gia vị",
+      "description": "Phở là một món ăn truyền thống của Việt Nam có xuất xứ từ Vân Cù, Nam Định. Phở được xem là một trong những món ăn tiêu biểu cho nền ẩm thực Việt Nam.",
+      "ingredients": "Bánh phở, thịt bò, rau thơm, gia vị",
       "special_ingredient": "Nước dùng từ xương bò",
       "imagelink_square": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/filters:quality(95)/https://cms-prod.s3-sgn09.fptcloud.com/1_to_pho_bo_bao_nhieu_calo_9_762e002737.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/pho/portrait/pho_pic_portrait.png",
@@ -22,7 +47,7 @@
         }
       ],
       "average_rating": 4.9,
-      "ratings_count": "8,532",
+      "ratings_count": 8532,
       "favourite": true,
       "type": "Bún",
       "index": 0
@@ -48,7 +73,7 @@
         }
       ],
       "average_rating": 4.8,
-      "ratings_count": "7,215",
+      "ratings_count": 7215,
       "favourite": true,
       "type": "Bánh",
       "index": 1
@@ -74,7 +99,7 @@
         }
       ],
       "average_rating": 4.6,
-      "ratings_count": "6,124",
+      "ratings_count": 6124,
       "favourite": false,
       "type": "Bún",
       "index": 2
@@ -100,8 +125,8 @@
         }
       ],
       "average_rating": 4.9,
-      "ratings_count": "9,235",
-      "favourite": true,
+      "ratings_count": 9235,
+      "favourite": false,
       "type": "Cơm",
       "index": 3
     },
@@ -126,7 +151,7 @@
         }
       ],
       "average_rating": 4.7,
-      "ratings_count": "5,876",
+      "ratings_count": 5876,
       "favourite": true,
       "type": "Bánh",
       "index": 4
@@ -152,7 +177,7 @@
         }
       ],
       "average_rating": 4.8,
-      "ratings_count": "6,452",
+      "ratings_count": 6452,
       "favourite": false,
       "type": "Gỏi",
       "index": 5
@@ -178,7 +203,7 @@
         }
       ],
       "average_rating": 4.9,
-      "ratings_count": "7,874",
+      "ratings_count": 7874,
       "favourite": true,
       "type": "Bún",
       "index": 6
@@ -192,11 +217,19 @@
       "imagelink_square": "https://static.vinwonders.com/production/banh-cuon-da-lat-1.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/banhcuon/portrait/banhcuon_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "4.99", "currency": "₫" },
-        { "size": "Lớn", "price": "7.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "4.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "7.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.6,
-      "ratings_count": "5,320",
+      "ratings_count": 5320,
       "favourite": false,
       "type": "Bánh",
       "index": 7
@@ -210,11 +243,19 @@
       "imagelink_square": "https://static.vinwonders.com/2022/10/com-nieu-da-nang-01.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/comnieu/portrait/comnieu_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "3.99", "currency": "₫" },
-        { "size": "Lớn", "price": "6.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "3.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "6.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.7,
-      "ratings_count": "4,892",
+      "ratings_count": 4892,
       "favourite": true,
       "type": "Cơm",
       "index": 8
@@ -228,11 +269,19 @@
       "imagelink_square": "https://cachnau.vn/wp-content/uploads/2021/12/cach-nau-mi-quang-phu-chiem.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/miquang/portrait/miquang_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "5.99", "currency": "₫" },
-        { "size": "Lớn", "price": "8.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "5.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "8.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.8,
-      "ratings_count": "6,723",
+      "ratings_count": 6723,
       "favourite": false,
       "type": "Mì",
       "index": 9
@@ -246,11 +295,19 @@
       "imagelink_square": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/filters:quality(95)/https://cms-prod.s3-sgn09.fptcloud.com/banh_canh_bao_nhieu_calo_an_nhieu_co_beo_khong_1_bb98d27077.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/banhcanh/portrait/banhcanh_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "6.99", "currency": "₫" },
-        { "size": "Lớn", "price": "9.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "6.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "9.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.7,
-      "ratings_count": "5,432",
+      "ratings_count": 5432,
       "favourite": true,
       "type": "Bánh",
       "index": 10
@@ -264,11 +321,19 @@
       "imagelink_square": "https://thammyviennevada.com/wp-content/uploads/2020/11/1-cai-banh-khot-bao-nhieu-calo-3-1.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/banhkhot/portrait/banhkhot_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "4.99", "currency": "₫" },
-        { "size": "Lớn", "price": "7.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "4.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "7.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.8,
-      "ratings_count": "6,212",
+      "ratings_count": 6212,
       "favourite": false,
       "type": "Bánh",
       "index": 11
@@ -282,11 +347,19 @@
       "imagelink_square": "https://statics.vinpearl.com/bun-bo-hue-1_1628650972.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/bunbohue/portrait/bunbohue_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "7.99", "currency": "₫" },
-        { "size": "Lớn", "price": "10.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "7.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "10.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.9,
-      "ratings_count": "7,543",
+      "ratings_count": 7543,
       "favourite": true,
       "type": "Bún",
       "index": 12
@@ -300,11 +373,19 @@
       "imagelink_square": "https://xenuocmiasach.com/wp-content/uploads/2022/03/uong-nhieu-nuoc-mia-co-tot-khong-1.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/nuocmia/portrait/nuocmia_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "2.99", "currency": "₫" },
-        { "size": "Lớn", "price": "4.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "2.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "4.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.6,
-      "ratings_count": "4,876",
+      "ratings_count": 4876,
       "favourite": false,
       "type": "Đồ Uống",
       "index": 13
@@ -318,11 +399,19 @@
       "imagelink_square": "https://monngonmoingay.com/wp-content/uploads/2015/08/AGF_0635-banh-beo.png",
       "imagelink_portrait": "../assets/vietnamese_dishes/banhbeo/portrait/banhbeo_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "3.99", "currency": "₫" },
-        { "size": "Lớn", "price": "6.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "3.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "6.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.5,
-      "ratings_count": "4,321",
+      "ratings_count": 4321,
       "favourite": false,
       "type": "Bánh",
       "index": 14
@@ -336,11 +425,19 @@
       "imagelink_square": "https://thecitylane.com/wp-content/uploads/2022/06/X1000371.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/banhmihoa/portrait/banhmihoa_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "4.99", "currency": "₫" },
-        { "size": "Lớn", "price": "7.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "4.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "7.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.6,
-      "ratings_count": "5,210",
+      "ratings_count": 5210,
       "favourite": true,
       "type": "Bánh",
       "index": 15
@@ -354,11 +451,19 @@
       "imagelink_square": "https://dacsanmientayquetoi.com/wp-content/uploads/2022/07/1-3-1.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/nemnuong/portrait/nemnuong_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "6.99", "currency": "₫" },
-        { "size": "Lớn", "price": "9.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "6.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "9.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.8,
-      "ratings_count": "7,312",
+      "ratings_count": 7312,
       "favourite": true,
       "type": "Nem",
       "index": 17
@@ -372,11 +477,19 @@
       "imagelink_square": "https://www.huongnghiepaau.com/wp-content/uploads/2017/11/ca-phe-sua-da.jpg",
       "imagelink_portrait": "../assets/vietnamese_dishes/caphesuada/portrait/caphesuada_pic_portrait.png",
       "prices": [
-        { "size": "Nhỏ", "price": "2.99", "currency": "₫" },
-        { "size": "Lớn", "price": "4.99", "currency": "₫" }
+        {
+          "size": "Nhỏ",
+          "price": "2.99",
+          "currency": "₫"
+        },
+        {
+          "size": "Lớn",
+          "price": "4.99",
+          "currency": "₫"
+        }
       ],
       "average_rating": 4.7,
-      "ratings_count": "5,987",
+      "ratings_count": 5987,
       "favourite": true,
       "type": "Đồ Uống",
       "index": 18

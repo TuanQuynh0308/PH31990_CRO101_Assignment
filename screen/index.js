@@ -5,6 +5,7 @@ import GioHang from "./GioHang";
 import YeuThich from "./YeuThich";
 import ThongBao from "./ThongBao";
 import LienHe from "./LienHe";
+import ChiTietSP from "./ChiTietSP";
 export{
     Login,
     Register,
@@ -12,5 +13,6 @@ export{
     GioHang,
     YeuThich,
     ThongBao,
-    LienHe
+    LienHe,
+    ChiTietSP
 }

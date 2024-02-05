@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
         backgroundColor:'#E7E6E7',
         elevation:0,
         borderTopWidth:0,
-        borderTopColor:'transparent',
+        backgroundColor: 'rgba(173, 217, 204, 0.3)',
     }
 })

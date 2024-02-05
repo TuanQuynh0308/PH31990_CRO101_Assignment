@@ -8,15 +8,61 @@ import {
     ImageBackground,
     KeyboardAvoidingView,
     Keyboard,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import('@react-navigation/native-stack')
 
 const Login = ({ navigation }) => {
+    
+    const [email, setemail] = useState('')
     const [password, setPassword] = useState('');
     const [secureTextEntry, setSecureTextEntry] = useState(true);
+
+
+    const doLogin = () => {
+        if (email.length == 0) {
+            Alert.alert("Chưa nhập Username");
+            return;
+        }
+        if (password.length == 0) {
+            Alert.alert("Chưa nhập Password");
+            return;
+        }
+
+        let url_user_login = "http://192.168.1.5:3000/users?email=" + email;
+
+
+
+        fetch(url_user_login)
+            .then((res) => {
+                return res.json();
+            })
+            .then( async (res_login) => {
+                if (res_login.length != 1){
+                    Alert.alert("Sai email hoặc lỗi trùng lặp");
+                    return;
+                }else{
+                    let objU = res_login[0];
+                    if(objU.password != password){
+                        Alert.alert("Sai pass");
+                    }else{
+                        try {
+                            await AsyncStorage.setItem('loginInfo',JSON.stringify(objU));
+                            navigation.navigate('BottomTab');
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    }
+                }
+        })
+
+
+    }
 
     const toggleSecureTextEntry = () => {
         setSecureTextEntry(!secureTextEntry);
@@ -49,8 +95,9 @@ const Login = ({ navigation }) => {
                                 <Icon name="user" size={18} color="#8bd9bc" />
                             </TouchableOpacity>
                             <TextInput
-                                keyboardType='default'
+                                style={{width:'80%'}}
                                 placeholder='Email'
+                                onChangeText={(txt)=>{setemail(txt)}}
                             />
 
                         </View>
@@ -71,6 +118,7 @@ const Login = ({ navigation }) => {
                                     secureTextEntry={secureTextEntry}
                                     keyboardType='default'
                                     placeholder='Password'
+                                    style={{width:'80%'}}
                                     onChangeText={(text) => setPassword(text)}
                                     value={password}
                                 />
@@ -86,7 +134,7 @@ const Login = ({ navigation }) => {
                     </View>
 
                     <View style={{ flex: 15, marginTop: 30 }}>
-                        <TouchableOpacity style={styles.bgbutton} onPress={() => navigation.navigate('BottomTab')}>
+                        <TouchableOpacity style={styles.bgbutton} onPress={doLogin}>
                             <Text style={{ padding: 8, fontSize: 17, color: '#d5dcf2' }}>Sign In</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
