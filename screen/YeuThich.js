@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ActivityIndicator } from 'react-native';
@@ -7,6 +7,7 @@ const YeuThich = (props) => {
   const [favorite, setfavorite] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
   const [isLoading, setisLoading] = useState(true);
+  
 
   const handlePress = async (index) => {
 
@@ -15,7 +16,7 @@ const YeuThich = (props) => {
 
     updateFavorite[index].favourite = !updateFavorite[index].favourite;
     
-    let url_api = `http://192.168.1.5:3000/products/${updateFavorite[index].id}`;
+    let url_api = `http://192.168.1.6:3000/products/${updateFavorite[index].id}`;
     try{
       const respone = await fetch(url_api,{
         method:'PATCH',
@@ -35,6 +36,7 @@ const YeuThich = (props) => {
     setIsPressed(index);
 
     setfavorite(updateFavorite);
+    Alert.alert('Đã loại bỏ khỏi danh sách yêu thích')
   
       
     }catch (error){
@@ -44,7 +46,7 @@ const YeuThich = (props) => {
   };
 
   const getFavoriteList = async () => {
-    let url_api = 'http://192.168.1.5:3000/products';
+    let url_api = 'http://192.168.1.6:3000/products';
     try {
       const respone = await fetch(url_api);
 

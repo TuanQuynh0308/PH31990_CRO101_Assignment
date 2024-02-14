@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
             return;
         }
 
-        let url_user_login = "http://192.168.1.5:3000/users?email=" + email;
+        let url_user_login = "http://192.168.1.6:3000/users?email=" + email;
 
 
 

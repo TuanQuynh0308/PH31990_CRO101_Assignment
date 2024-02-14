@@ -48,7 +48,7 @@
       ],
       "average_rating": 4.9,
       "ratings_count": 8532,
-      "favourite": true,
+      "favourite": false,
       "type": "Bún",
       "index": 0
     },
@@ -495,7 +495,36 @@
       "index": 18
     }
   ],
-  "carts": [],
+  "carts": [
+    {
+      "id": "V1",
+      "name": "Phở",
+      "description": "Phở là một món ăn truyền thống của Việt Nam có xuất xứ từ Vân Cù, Nam Định. Phở được xem là một trong những món ăn tiêu biểu cho nền ẩm thực Việt Nam.",
+      "ingredients": "Bánh phở, thịt bò, rau thơm, gia vị",
+      "special_ingredient": "Nước dùng từ xương bò",
+      "imagelink_square": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/filters:quality(95)/https://cms-prod.s3-sgn09.fptcloud.com/1_to_pho_bo_bao_nhieu_calo_9_762e002737.jpg",
+      "imagelink_portrait": "../assets/vietnamese_dishes/pho/portrait/pho_pic_portrait.png",
+      "prices": [
+        {
+          "size": "Bình thường",
+          "price": "7.99",
+          "currency": "$",
+          "quantity": 1
+        },
+        {
+          "size": "Lớn",
+          "price": "9.99",
+          "currency": "$",
+          "quantity": 1
+        }
+      ],
+      "average_rating": 4.9,
+      "ratings_count": 8532,
+      "favourite": false,
+      "type": "Bún",
+      "index": 0
+    }
+  ],
   "orders": [],
   "contacts": []
 }

@@ -20,7 +20,7 @@ const Home = (props) => {
   //VIết hàm load sp
 
   const getListPro = async () => {
-    let url_api = 'http://192.168.1.5:3000/products';
+    let url_api = 'http://192.168.1.6:3000/products';
 
     try {
       const response = await fetch(url_api);//load dữ liệu
@@ -41,7 +41,7 @@ const Home = (props) => {
   }
 
   const getTopList = async () => {
-    let url_api = 'http://192.168.1.5:3000/products';
+    let url_api = 'http://192.168.1.6:3000/products';
     try {
       const respone = await fetch(url_api);
 
