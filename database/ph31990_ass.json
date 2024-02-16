@@ -509,13 +509,15 @@
           "size": "Nhỏ",
           "price": "7.99",
           "currency": "$",
-          "quantity": 1
+          "quantity": 1,
+          "total": 7.99
         },
         {
           "size": "Lớn",
           "price": "9.99",
           "currency": "$",
-          "quantity": 1
+          "quantity": 1,
+          "total": 9.99
         }
       ],
       "average_rating": 4.9,
@@ -523,28 +525,6 @@
       "favourite": true,
       "type": "Bún",
       "index": 0
-    },
-    {
-      "id": "V2",
-      "name": "Bánh Mì",
-      "description": "Bánh Mì là một loại bánh mì Việt Nam nổi tiếng, được biết đến với hương vị ngon và đa dạng...",
-      "ingredients": "Bột mỳ, thịt băm, đùi gà, pate, rau sống, nước mắm",
-      "special_ingredient": "Nước mắm đặc biệt",
-      "imagelink_square": "https://banhmimahai.vn/wp-content/uploads/2020/02/thumb.jpg.webp",
-      "imagelink_portrait": "../assets/vietnamese_dishes/banhmi/portrait/banhmi_pic_portrait.png",
-      "prices": [
-        {
-          "size": "Nhỏ",
-          "price": "2.99",
-          "currency": "$",
-          "quantity": 1
-        }
-      ],
-      "average_rating": 4.8,
-      "ratings_count": 7215,
-      "favourite": true,
-      "type": "Bánh",
-      "index": 1
     }
   ],
   "orders": [],

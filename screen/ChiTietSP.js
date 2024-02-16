@@ -1,10 +1,10 @@
 import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 const ChiTietSP = ({ route }) => {
-  const navigation= useNavigation();
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { item } = route.params;
   const priceindex = item.prices[1]
@@ -21,8 +21,23 @@ const ChiTietSP = ({ route }) => {
 
   // Tìm giá tương ứng với size đang được chọn
   const selectedPrice = item.prices.find((price) => price.size === selectedSize);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await fetch('http://192.168.1.6:3000/carts');
+        const data = await response.json();
+        setCart(data);
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
   const handlePress = async () => {
-    
+
 
     try {
       // Gửi yêu cầu cập nhật đến API
@@ -56,10 +71,11 @@ const ChiTietSP = ({ route }) => {
       const updatedCart = [...cart];
       const existingItem = updatedCart[existingItemIndex];
       const existingSizeIndex = existingItem.prices.findIndex((price) => price.size === selectedSize);
-
       if (existingSizeIndex !== -1) {
         // Nếu size đã tồn tại, tăng số lượng của size đó
         existingItem.prices[existingSizeIndex].quantity += 1;
+        existingItem.prices[existingSizeIndex].total =
+          parseFloat(existingItem.prices[existingSizeIndex].price) * existingItem.prices[existingSizeIndex].quantity;
       } else {
         // Nếu size chưa tồn tại, thêm size mới vào mảng prices của sản phẩm đó
         existingItem.prices.push({
@@ -67,6 +83,7 @@ const ChiTietSP = ({ route }) => {
           price: item.prices.find((price) => price.size === selectedSize)?.price || '',
           currency: item.prices.find((price) => price.size === selectedSize)?.currency || '₫',
           quantity: 1, // Đặt số lượng là 1 nếu thêm size mới
+          total: parseFloat(item.prices.find((price) => price.size === selectedSize)?.price) || 0,
         });
       }
 
@@ -92,15 +109,28 @@ const ChiTietSP = ({ route }) => {
     } else {
       // Nếu sản phẩm không tồn tại trong giỏ hàng, thêm sản phẩm mới vào giỏ hàng
       const newItem = {
-        ...item,
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        ingredients: item.ingredients,
+        special_ingredient: item.special_ingredient,
+        imagelink_square: item.imagelink_square,
+        imagelink_portrait: item.imagelink_portrait,
         prices: [
           {
             size: selectedSize,
             price: item.prices.find((price) => price.size === selectedSize)?.price || '',
             currency: item.prices.find((price) => price.size === selectedSize)?.currency || '₫',
             quantity: 1, // Đặt số lượng là 1 nếu thêm sản phẩm mới
+            total: parseFloat(item.prices.find((price) => price.size === selectedSize)?.price) || 0,
           },
         ],
+        average_rating: item.average_rating,
+        ratings_count: item.ratings_count,
+        favourite: item.favourite,
+        type: item.type,
+        index: item.index
+
       };
 
       // Cập nhật giỏ hàng
@@ -125,22 +155,22 @@ const ChiTietSP = ({ route }) => {
     }
   };
   return (
-    
+
     <View style={{ flex: 1 }}>
 
       <View style={{ flex: 7 }}>
-        
+
         <ImageBackground source={{ uri: item.imagelink_square }} style={{ width: '100%', height: '100%' }} />
-        
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20,position:'absolute',top:0,width:'100%' }}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5, paddingHorizontal: 7 }}>
-          <Icon name='arrow-left' size={28} color='white' />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5 }} onPress={handlePress}>
-          
-          <Icon name='heart' size={28} color={isPressed || item.favourite ? '#bf3b84':'white'} />
-        </TouchableOpacity>
-      </View>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20, position: 'absolute', top: 0, width: '100%' }}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5, paddingHorizontal: 7 }}>
+            <Icon name='arrow-left' size={28} color='white' />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ borderRadius: 3, backgroundColor: '#8bd9bc', padding: 5 }} onPress={handlePress}>
+
+            <Icon name='heart' size={28} color={isPressed || item.favourite ? '#bf3b84' : 'white'} />
+          </TouchableOpacity>
+        </View>
         <View style={{
           width: '100%',
           height: 150,
@@ -171,7 +201,7 @@ const ChiTietSP = ({ route }) => {
       <View style={{ flex: 4, backgroundColor: '#718c49', padding: 20 }}>
         <Text style={{ color: 'white', fontSize: 20 }}>Mô tả</Text>
         <Text numberOfLines={3} ellipsizeMode="tail" style={{ color: 'white', fontSize: 15, marginTop: 10 }}>{item.description}</Text>
-        <Text style={{ color: 'white', fontSize: 20, marginTop: 20, marginBottom:10 }}>Size</Text>
+        <Text style={{ color: 'white', fontSize: 20, marginTop: 20, marginBottom: 10 }}>Size</Text>
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
             style={[
@@ -192,16 +222,16 @@ const ChiTietSP = ({ route }) => {
             <Text style={{ color: 'white' }}>Lớn</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection:'row',marginTop:45}}>
-          <View style={{flex:1}}>
-            <Text style={{fontSize:13,color:'white'}}>   Giá</Text>
+        <View style={{ flexDirection: 'row', marginTop: 45 }}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: 13, color: 'white' }}>   Giá</Text>
             <Text style={{ fontSize: 18, color: 'white', fontWeight: '700' }}>
               <Text style={{ color: '#bf3b84' }}>$</Text> {selectedPrice ? selectedPrice.price : ''}
             </Text>
           </View>
-          <TouchableOpacity style={{flex:2, borderRadius:10, backgroundColor:'#bf3b84', padding:15,justifyContent:'center', alignItems:'center'}}
-          onPress={handlePressCart}>
-            <Text style={{color:'white'}}>Thêm vào giỏ hàng</Text>
+          <TouchableOpacity style={{ flex: 2, borderRadius: 10, backgroundColor: '#bf3b84', padding: 15, justifyContent: 'center', alignItems: 'center' }}
+            onPress={handlePressCart}>
+            <Text style={{ color: 'white' }}>Thêm vào giỏ hàng</Text>
           </TouchableOpacity>
         </View>
 
