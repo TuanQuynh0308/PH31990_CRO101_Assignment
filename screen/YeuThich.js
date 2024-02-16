@@ -7,6 +7,7 @@ const YeuThich = (props) => {
   const [favorite, setfavorite] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
   const [isLoading, setisLoading] = useState(true);
+  const [index, setIndex] = useState(0);
   
 
   const handlePress = async (index) => {

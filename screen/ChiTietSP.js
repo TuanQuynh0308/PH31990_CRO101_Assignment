@@ -12,7 +12,7 @@ const ChiTietSP = ({ route }) => {
   const [isFavourite, setIsFavourite] = useState(item.favourite);
   const [cart, setCart] = useState([]);
 
-  const [selectedSize, setSelectedSize] = useState('Bình thường');
+  const [selectedSize, setSelectedSize] = useState('Nhỏ');
 
   const handleSizeChange = (size) => {
     // Xử lý khi người dùng chọn size mới
@@ -26,7 +26,7 @@ const ChiTietSP = ({ route }) => {
 
     try {
       // Gửi yêu cầu cập nhật đến API
-      const response = await fetch(`http://192.168.1.5:3000/products/${item.id}`, {
+      const response = await fetch(`http://192.168.1.6:3000/products/${item.id}`, {
         method: 'PATCH', // hoặc 'POST' tùy thuộc vào API của bạn
         headers: {
           'Content-Type': 'application/json',
@@ -176,11 +176,11 @@ const ChiTietSP = ({ route }) => {
           <TouchableOpacity
             style={[
               styles.sizeButton,
-              { backgroundColor: selectedSize === 'Bình thường' ? '#bf3b84' : '#6F6F6E' },
+              { backgroundColor: selectedSize === 'Nhỏ' ? '#bf3b84' : '#6F6F6E' },
             ]}
-            onPress={() => handleSizeChange('Bình thường')}
+            onPress={() => handleSizeChange('Nhỏ')}
           >
-            <Text style={{ color: 'white' }}>Bình thường</Text>
+            <Text style={{ color: 'white' }}>Nhỏ</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
