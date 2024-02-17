@@ -9,6 +9,18 @@ const GioHang = (props) => {
   const [isLoading, setisLoading] = useState(true);
   const [dssp, setdssp] = useState([]);
 
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+
+    dssp.forEach((product) => {
+      product.prices.forEach((totalSize) => {
+        totalPrice += totalSize.totalSize || 0;
+      });
+    });
+
+    return totalPrice.toFixed(2);
+  };
+
 
 
 
@@ -55,10 +67,10 @@ const GioHang = (props) => {
         const updatedDssp = [...dssp];
         const selectedItemIndex = updatedDssp.findIndex((product) => product.id === item.id);
         const selectedPriceIndex = updatedDssp[selectedItemIndex].prices.findIndex((p) => p.size === size);
-    
+
         if (updatedDssp[selectedItemIndex].prices[selectedPriceIndex].quantity > 0) {
           const newQuantity = updatedDssp[selectedItemIndex].prices[selectedPriceIndex].quantity - 1;
-    
+
           // Thực hiện yêu cầu API để giảm số lượng cho sản phẩm và size cụ thể
           await fetch(`http://192.168.1.6:3000/carts/${item.id}/sizes/${size}`, {
             method: 'PUT',
@@ -67,31 +79,31 @@ const GioHang = (props) => {
             },
             body: JSON.stringify({ quantity: newQuantity }),
           });
-    
+
           // Lấy giá của sản phẩm từ danh sách sản phẩm
           const product = updatedDssp[selectedItemIndex];
           const productPrice = parseFloat(product.prices[selectedPriceIndex].price);
-    
+
           // Cộng giá mới dựa trên giá của sản phẩm (không nhân theo số lượng)
-          const newTotalPrice = productPrice;
-    
+          const newTotalPrice = productPrice * newQuantity;
+
           // Cập nhật trạng thái để phản ánh sự giảm số lượng và giá mới
           updatedDssp[selectedItemIndex].prices[selectedPriceIndex].quantity = newQuantity;
-          updatedDssp[selectedItemIndex].prices[selectedPriceIndex].price = newTotalPrice;
-    
+          updatedDssp[selectedItemIndex].prices[selectedPriceIndex].totalSize = newTotalPrice;
+
           setdssp(updatedDssp);
         }
       } catch (error) {
         console.error(error);
       }
     };
-    
+
     const handlePlusPress = async (item, size) => {
       try {
         const updatedDssp = [...dssp];
         const selectedItemIndex = updatedDssp.findIndex((product) => product.id === item.id);
         const selectedPriceIndex = updatedDssp[selectedItemIndex].prices.findIndex((p) => p.size === size);
-    
+
         // Thực hiện yêu cầu API để tăng số lượng cho sản phẩm và size cụ thể
         await fetch(`http://192.168.1.6:3000/carts/${item.id}/sizes/${size}`, {
           method: 'PUT',
@@ -100,19 +112,19 @@ const GioHang = (props) => {
           },
           body: JSON.stringify({ quantity: updatedDssp[selectedItemIndex].prices[selectedPriceIndex].quantity + 1 }),
         });
-    
+
         // Lấy giá của sản phẩm từ danh sách sản phẩm
         const product = updatedDssp[selectedItemIndex];
         const productPrice = parseFloat(product.prices[selectedPriceIndex].price);
-    
+
         // Cộng giá mới dựa trên giá của sản phẩm (không nhân theo số lượng)
         const newQuantity = product.prices[selectedPriceIndex].quantity + 1;
-        const newTotalPrice = productPrice;
-    
+        const newTotalPrice = productPrice * newQuantity;
+
         // Cập nhật trạng thái để phản ánh sự tăng số lượng và giá mới
         updatedDssp[selectedItemIndex].prices[selectedPriceIndex].quantity = newQuantity;
-        updatedDssp[selectedItemIndex].prices[selectedPriceIndex].price = newTotalPrice;
-    
+        updatedDssp[selectedItemIndex].prices[selectedPriceIndex].totalSize = newTotalPrice;
+
         setdssp(updatedDssp);
       } catch (error) {
         console.error(error);
@@ -120,7 +132,7 @@ const GioHang = (props) => {
     };
 
     if (priceInfo && priceInfo.quantity > 0) {
-      
+
       return (
         <View key={size} style={{
           flexDirection: 'row',
@@ -139,7 +151,7 @@ const GioHang = (props) => {
             <Text style={{ color: 'black', fontWeight: '800' }}>{size}</Text>
           </View>
 
-          <Text style={{ fontSize: 18, color: 'black', fontWeight: '800' }}><Text style={{ color: '#bf3b84' }}>$ </Text>{priceInfo.price}</Text>
+          <Text style={{ fontSize: 18, color: 'black', fontWeight: '800' }}><Text style={{ color: '#bf3b84' }}>$ </Text>{priceInfo.totalSize}</Text>
           <TouchableOpacity style={{ borderRadius: 5, backgroundColor: '#bf3b84', padding: 7, paddingHorizontal: 9 }}
             onPress={() => handleMinusPress(item, size)}>
             <Icon name='minus' size={15} color='white' />
@@ -169,7 +181,67 @@ const GioHang = (props) => {
     }
     return null;
   };
+  const clearCartOnServer = async () => {
+    try {
+      await Promise.all(
+        dssp.map(async (product) => {
+          const { id } = product;
+          const response = await fetch(`http://192.168.1.6:3000/carts/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+  
+          if (!response.ok) {
+            console.error(`Failed to delete product ${id} from the cart.`);
+          }
+        })
+      );
+  
+      // Sau khi xóa thành công trên API, cập nhật trạng thái giỏ hàng thành một mảng rỗng
+      setdssp([]);
+    } catch (error) {
+      console.error('Error clearing cart on server:', error);
+    }
+  };
 
+  const postProductsToServer = async () => {
+    try {
+      const currentDate = new Date(); // Lấy ngày giờ hiện tại
+      const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`; // Format ngày tháng năm
+  
+      const productsWithDate = dssp.map(product => ({
+        ...product,
+        date: formattedDate,
+        totalAmount: calculateTotalPrice()
+      }));
+  
+      const productsObject = productsWithDate.reduce((acc, product) => {
+        const { id, ...rest } = product;
+        acc[id] = { ...rest, date: product.date };
+        return acc;
+      }, {});
+  
+      const response = await fetch('http://192.168.1.6:3000/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productsObject),
+      });
+  
+      if (response.ok) {
+        console.log('Products posted successfully!');
+
+        clearCartOnServer();
+      } else {
+        console.error('Failed to post products:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error posting products:', error);
+    }
+  };
 
   return (
     <View style={{ flex: 1, }}>
@@ -190,7 +262,7 @@ const GioHang = (props) => {
         <View style={{
         }}>
           <View style={{
-            height: 730,
+            height: 670,
           }}>
 
             <View style={{ height: 1, backgroundColor: '#8bd9bc' }}></View>
@@ -203,7 +275,7 @@ const GioHang = (props) => {
                   keyExtractor={item => item.id}
                   renderItem={({ item }) => {
 
-                  
+
                     return <View style={{
                       backgroundColor: '#add9cc',
                       borderRadius: 10,
@@ -254,6 +326,18 @@ const GioHang = (props) => {
                 </FlatList>
               )
             }
+            <View style={{flexDirection:'row'}}>
+              <View style={{justifyContent:'center', alignItems:'center', flex:2}}>
+                <Text style={{ color: 'black', fontSize:18,fontWeight:'500' }}>
+                  Total Price
+                </Text>
+                <Text style={{ color: '#bf3b84', fontSize:18,fontWeight:'500' }}>$ {calculateTotalPrice()}</Text>
+              </View>
+              <TouchableOpacity onPress={postProductsToServer}
+               style={{flex:3,borderRadius: 10, backgroundColor: '#bf3b84', padding: 7, marginHorizontal:10, justifyContent:'center', alignItems:'center'}}>
+                <Text style={{color:'white', fontSize:18, fontWeight:'500'}}>Pay</Text>
+              </TouchableOpacity>
+            </View>
 
 
 

@@ -74,7 +74,7 @@ const ChiTietSP = ({ route }) => {
       if (existingSizeIndex !== -1) {
         // Nếu size đã tồn tại, tăng số lượng của size đó
         existingItem.prices[existingSizeIndex].quantity += 1;
-        existingItem.prices[existingSizeIndex].total =
+        existingItem.prices[existingSizeIndex].totalSize =
           parseFloat(existingItem.prices[existingSizeIndex].price) * existingItem.prices[existingSizeIndex].quantity;
       } else {
         // Nếu size chưa tồn tại, thêm size mới vào mảng prices của sản phẩm đó
@@ -83,7 +83,7 @@ const ChiTietSP = ({ route }) => {
           price: item.prices.find((price) => price.size === selectedSize)?.price || '',
           currency: item.prices.find((price) => price.size === selectedSize)?.currency || '₫',
           quantity: 1, // Đặt số lượng là 1 nếu thêm size mới
-          total: parseFloat(item.prices.find((price) => price.size === selectedSize)?.price) || 0,
+          totalSize: parseFloat(item.prices.find((price) => price.size === selectedSize)?.price) || 0,
         });
       }
 
@@ -122,7 +122,7 @@ const ChiTietSP = ({ route }) => {
             price: item.prices.find((price) => price.size === selectedSize)?.price || '',
             currency: item.prices.find((price) => price.size === selectedSize)?.currency || '₫',
             quantity: 1, // Đặt số lượng là 1 nếu thêm sản phẩm mới
-            total: parseFloat(item.prices.find((price) => price.size === selectedSize)?.price) || 0,
+            totalSize: parseFloat(item.prices.find((price) => price.size === selectedSize)?.price) || 0,
           },
         ],
         average_rating: item.average_rating,
