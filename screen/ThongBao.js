@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
+
 const ThongBao = () => {
 
   const [data, setData] = useState([]);
@@ -42,9 +43,17 @@ const ThongBao = () => {
                 width: 390,
               }}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Image source={{ uri: item[key].imagelink_square }} style={{ width: 100, height: 100, borderRadius:20 }} />
-                  <Text>{item[key].name}</Text>
-                  <Text>Average Rating {key}: {item[key].average_rating}</Text>
+                  <Image source={{ uri: item[key].imagelink_square }} style={{ width: 100, height: 100, borderRadius: 20 }} />
+                  <View style={{ flex: 1, marginHorizontal: 20 }}>
+                    <Text style={{ fontSize: 25, fontWeight: '800', color: 'black' }}>{item[key].name}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+                      <Icon name='star' size={20} color={'yellow'} />
+                      <Text style={{ color: 'white', fontSize: 17, fontWeight: '600' }}> {item[key].average_rating}</Text>
+                      <Text style={{ color: 'white', fontSize: 12 }}> ({item[key].ratings_count})</Text>
+                    </View>
+                    
+                  </View>
+
                 </View>
                 {item[key].prices.map((price) => (
 
@@ -76,12 +85,12 @@ const ThongBao = () => {
                       borderRadius: 10,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      
+
                     }}>
                       <Text style={{ fontSize: 18, color: 'black', fontWeight: '800' }}>x{price.quantity}</Text>
 
                     </View>
-                    <Text style={{ fontSize: 18, color: 'black', fontWeight: '800', marginRight: 20, width:100 }}><Text style={{ color: '#bf3b84' }}>$ </Text>{price.totalSize}</Text>
+                    <Text style={{ fontSize: 18, color: 'black', fontWeight: '800', marginRight: 20, width: 100 }}><Text style={{ color: '#bf3b84' }}>$ </Text>{price.totalSize}</Text>
 
 
                   </View>
@@ -89,9 +98,9 @@ const ThongBao = () => {
                   // okok
 
                 ))}
-                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <Text style={{color:'black', fontSize:18}}> {item[key].date}</Text>
-                  <Text style={{color:'#bf3b84', fontSize:18, fontWeight:'800'}}>$ {item[key].totalAmount}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{ color: 'black', fontSize: 18 }}> {item[key].date}</Text>
+                  <Text style={{ color: '#bf3b84', fontSize: 18, fontWeight: '800' }}>$ {item[key].totalAmount}</Text>
                 </View>
 
               </View>

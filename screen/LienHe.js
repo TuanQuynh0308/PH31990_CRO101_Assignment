@@ -1,8 +1,43 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native'
+import React, { useRef, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const LienHe = () => {
+
+  const nameInputRef = useRef(null);
+  const emailInputRef = useRef(null);
+  const contentInputRef = useRef(null);
+
+  const [name, setname] = useState('')
+  const [email, setemail] = useState('')
+  const [content, setcontent] = useState('')
+
+
+  const onSubmit= () =>{
+    let Contact={
+      name: name,
+      email: email,
+      content: content
+    };
+    let url_contact = 'http://192.168.1.6:3000/contacts';
+    fetch(url_contact,{
+      method: 'POST',
+      headers:{
+        Accept: 'application/json',
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify(Contact)
+    }).then((res)=>{
+      if(res.status==201)
+        Alert.alert('Gửi thành công');
+        nameInputRef.current.clear();
+          emailInputRef.current.clear();
+          contentInputRef.current.clear();
+    }).catch((ex)=>{
+      console.log(ex);
+    })
+  }
+
   return (
     <View>
       <View style={{  flexDirection: 'row', justifyContent:'space-between',padding:20 }}>
@@ -18,6 +53,8 @@ const LienHe = () => {
       <TextInput
         style={styles.khunginput}
         placeholder="Nhập Họ và Tên"
+        ref={nameInputRef}
+        onChangeText={(txt) => { setname(txt) }}
       />
 
       <Text style={styles.label}>Email:</Text>
@@ -25,6 +62,8 @@ const LienHe = () => {
         style={styles.khunginput}
         placeholder="Nhập email VD: quynh@gmail.com"
         keyboardType="email-address"
+        ref={emailInputRef}
+        onChangeText={(txt) => { setemail(txt) }}
       />
 
       <Text style={styles.label}>Nội Dung:</Text>
@@ -33,9 +72,11 @@ const LienHe = () => {
         placeholder="Type your message"
         multiline
         numberOfLines={4}
+        ref={contentInputRef}
+        onChangeText={(txt) => { setcontent(txt) }}
       />
 
-      <TouchableOpacity style={styles.bgbutton} >
+      <TouchableOpacity style={styles.bgbutton} onPress={onSubmit}>
         <Text style={{ padding: 8, fontSize: 17, color: '#d5dcf2' }}>Send</Text>
       </TouchableOpacity>
     </View>
